@@ -1,0 +1,145 @@
+# ---------------------------------------------------------
+# 1. Python 编译产物 (Bytecode)
+# ---------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ---------------------------------------------------------
+# 2. 虚拟环境 (Virtual Environments)
+# ---------------------------------------------------------
+# 推荐忽略所有常见的虚拟环境目录名
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+.python-version  # pyenv 版本文件通常不提交，除非团队强制统一
+
+# ---------------------------------------------------------
+# 3. 依赖管理锁定文件 (视情况而定)
+# ---------------------------------------------------------
+# 如果你使用 pip-tools，通常提交 requirements.txt，忽略 .txt 以外的
+# 如果你使用 uv/poetry，通常提交 lock 文件 (uv.lock / poetry.lock)，所以这里不需要忽略它们
+# 但如果是临时的依赖列表，可以忽略
+requirements-local.txt
+*.lock.local
+
+# ---------------------------------------------------------
+# 4. IDE 和编辑器配置 (Editors & IDEs)
+# ---------------------------------------------------------
+# PyCharm / IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VS Code
+.vscode/
+!vscode/settings.json  # 如果团队需要共享特定设置，可取消注释此行
+!vscode/extensions.json
+!vscode/tasks.json
+!vscode/launch.json
+
+# Vim / Emacs
+*.swp
+*.swo
+*~
+.secrets.swp
+.project
+.pydevproject
+.settings/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# ---------------------------------------------------------
+# 5. 敏感信息与本地配置 (Secrets & Local Config)
+# ---------------------------------------------------------
+# 绝对不要提交包含密码、API Key 的文件
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+secrets.json
+config.local.py
+instance/  # Flask 常用实例文件夹
+
+# ---------------------------------------------------------
+# 6. 测试与覆盖率 (Testing & Coverage)
+# ---------------------------------------------------------
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+
+# ---------------------------------------------------------
+# 7. 文档构建 (Documentation)
+# ---------------------------------------------------------
+docs/_build/
+site/  # MkDocs
+*.mo   # 编译后的翻译文件
+
+# ---------------------------------------------------------
+# 8. 操作系统临时文件 (OS Generated Files)
+# ---------------------------------------------------------
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.fuse_hidden*
+.Trash-*
+.nfs*
+
+# ---------------------------------------------------------
+# 9. 其他常见工具
+# ---------------------------------------------------------
+.mypy_cache/
+.ruff_cache/
+.hatch/
+.pdm.toml  # 如果未使用 PDM 管理项目
