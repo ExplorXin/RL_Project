@@ -1,6 +1,5 @@
 import numpy as np
 import sys
-# from gym.envs.toy_text import discrete
 
 import gymnasium as gym
 from gymnasium import spaces
@@ -37,23 +36,32 @@ class GridworldEnv(gym.Env):
 		P={}
 		grid = np.arange(nS).reshape(shape)
 		it = np.nditer(grid, flags = ['multi_index'])
+
+
+		# 定义即时奖励R(s,a)
+		def reward(next_state):
+			if next_state == done_location:
+				reward = 0.0
+			else:
+				reward = -1.0
+			return reward
 		
 		while not it.finished:
 			s = it.iterindex
 			y, x= it.multi_index
 			P[s] = {a:[] for a in range(nA)}
 			is_done = lambda s: s == done_location
-			reward = 0.0 if is_done(s) else -1.0
+			# reward = 0.0 if is_done(s) else -1.0
 			
 			# P[s][a]第一参数为状态转移概率，为1，第二参数代表到达下一个的位置
 			# 第三个参数reward是回报，最后一参数True表示到达宝藏区
 
 			# 位于宝藏区，则停留原地
 			if is_done(s):
-				P[s][up] = [(1,s,reward,True)]
-				P[s][right] = [(1,s,reward,True)]
-				P[s][down] = [(1,s,reward,True)]
-				P[s][left] = [(1,s,reward,True)]
+				P[s][up] = [(1,s,reward(s),True)]
+				P[s][right] = [(1,s,reward(s),True)]
+				P[s][down] = [(1,s,reward(s),True)]
+				P[s][left] = [(1,s,reward(s),True)]
 
 			# 位于宝藏区外，进行状态转换
 			else:
@@ -61,10 +69,10 @@ class GridworldEnv(gym.Env):
 				ns_right = s if x == (max_X-1) else s+1
 				ns_down = s if y == (max_Y-1) else s+ max_X
 				ns_left = s if x == 0 else s-1
-				P[s][up] = [(1,ns_up, reward, is_done(ns_up))]
-				P[s][right] = [(1,ns_right,reward, is_done(ns_right))]
-				P[s][down] = [(1,ns_down,reward, is_done(ns_down))]
-				P[s][left] = [(1,ns_left,reward, is_done(ns_left))]
+				P[s][up] = [(1,ns_up, reward(ns_up), is_done(ns_up))]
+				P[s][right] = [(1,ns_right,reward(ns_right), is_done(ns_right))]
+				P[s][down] = [(1,ns_down,reward(ns_down), is_done(ns_down))]
+				P[s][left] = [(1,ns_left,reward(ns_left), is_done(ns_left))]
 			it.iternext()
 		isd = np.ones(nS)/nS
 		self.P =P
@@ -72,29 +80,6 @@ class GridworldEnv(gym.Env):
 		self.nS = nS
 		self.nA = nA
 		self.isd = isd
-
-		self.observation_space = spaces.Discrete(nS)
-		self.action_space = spaces.Discrete(nA)
-
-		self.s = np.random.choice(nS, p=isd)
-
-		def reset(self, seed=None, options=None):
-			super().reset(seed=seed)
-			self.s = np.random.choice(self.nS, p=self.isd)
-			return self.s, {}
-	
-		def step(self, action):
-			transitions = self.P[self.s][action]
-			prob, next_state, reward, done = transitions[0]
-
-			self.s = next_state
-
-			terminated = done
-			truncated = False
-
-			return next_state, reward, terminated, truncated, {}
-
-
 
 
 
