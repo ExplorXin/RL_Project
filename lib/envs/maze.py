@@ -103,9 +103,13 @@ class MazeEnv(tk.Tk, object):
 
 
     # 根据当前的状态重置画布（为展示动态效果）
-    def reset(self):
+    def reset(self, render=True):
         self.update()
-        time.sleep(0.5)
+
+        #是否渲染过程(延时)
+        if render == True:
+            time.sleep(0.5)
+            
         self.canvas.delete(self.rect)
         origin = np.array([20, 20])
         self.rect = self.canvas.create_rectangle(
