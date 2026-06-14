@@ -41,7 +41,7 @@ class GridworldEnv(gym.Env):
 		# 定义即时奖励R(s,a)
 		def reward(next_state):
 			if next_state == done_location:
-				reward = 0.0
+				reward = 0
 			else:
 				reward = -1.0
 			return reward
